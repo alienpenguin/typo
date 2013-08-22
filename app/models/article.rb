@@ -320,7 +320,6 @@ class Article < Content
   def merge_with(old_article_id)
 debugger
 #changing the title for test
-self.title=self.title+"+"
     old1 = Article.find(old_article_id)
     merged = Article.new
     merged.title = old1.title

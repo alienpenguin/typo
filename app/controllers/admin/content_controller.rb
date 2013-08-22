@@ -154,15 +154,17 @@ class Admin::ContentController < Admin::BaseController
     if merge_id and not merge_id.blank?
         params[:action] = "merge"
         raise "Cannot merge an article with itself" unless id != merge_id
+        if not current_user.admin?
+            flash[:notice] = _('Only Admins can merge articles')
+            redirect_to :action => 'index'
+            return
+        end
         mart = @article.merge_with(merge_id)
         debugger
         @article.destroy
         Article.destroy(merge_id)
         
         @article = mart
-        
-        #redirect_to :action => 'index'
-        #return
     end
 
 
@@ -172,6 +174,7 @@ class Admin::ContentController < Admin::BaseController
         get_fresh_or_existing_draft_for_article
       else
         if not @article.parent_id.nil?
+        debugger
           @article = Article.find(@article.parent_id)
         end
       end
