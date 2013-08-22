@@ -3,4 +3,15 @@
 
   <%= render :partial => "form" %>
 
+<% if current_user.admin? %>
+  <div class=''>
+    <ul id='merging' class='inputs-list'>
+    <h4> Merge Articles </h4>
+      Article ID <%= text_field :merge, :with %>
+      <input class="btn info" type="submit" value="Merge" id="merge_btn">
+    </ul>
+  </div>
 <% end %>
+  
+<% end %>
+
