@@ -334,10 +334,12 @@ debugger
     
     old1.comments.each do |c|
         c.article_id = merged.id
+        c.save
     end
     
     self.comments.each do |c|
         c.article_id = merged.id
+        c.save
     end
     
     return merged
