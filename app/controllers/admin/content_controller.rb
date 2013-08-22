@@ -176,7 +176,6 @@ class Admin::ContentController < Admin::BaseController
         get_fresh_or_existing_draft_for_article
       else
         if not @article.parent_id.nil?
-        debugger
           @article = Article.find(@article.parent_id)
         end
       end
@@ -184,10 +183,16 @@ class Admin::ContentController < Admin::BaseController
 
     @article.keywords = Tag.collection_to_string @article.tags
     @article.attributes = params[:article]
+    
+    #reset the body from mart
+    #if mart
+    #    @article.body = mart.body
+    #end
+    
     # TODO: Consider refactoring, because double rescue looks... weird.
         
     @article.published_at = DateTime.strptime(params[:article][:published_at], "%B %e, %Y %I:%M %p GMT%z").utc rescue Time.parse(params[:article][:published_at]).utc rescue nil
-
+    print "here"
     if request.post?
       set_article_author
       save_attachments
@@ -196,7 +201,7 @@ class Admin::ContentController < Admin::BaseController
 
       if @article.save
         destroy_the_draft unless @article.draft
-        set_article_categories
+        #set_article_categories
         set_the_flash
         redirect_to :action => 'index'
         return

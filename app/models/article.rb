@@ -336,6 +336,10 @@ debugger
         c.article_id = merged.id
     end
     
+    self.comments.each do |c|
+        c.article_id = merged.id
+    end
+    
     return merged
   end
   
