@@ -321,12 +321,21 @@ class Article < Content
 debugger
 #changing the title for test
     old1 = Article.find(old_article_id)
+    
+    #print old1.comments
+    
     merged = Article.new
     merged.title = old1.title
     merged.author = old1.author
     merged.body = old1.body+"\n"+self.body
     merged.user_id = old1.user_id
+    merged.published = true
     merged.save!
+    
+    old1.comments.each do |c|
+        c.article_id = merged.id
+    end
+    
     return merged
   end
   

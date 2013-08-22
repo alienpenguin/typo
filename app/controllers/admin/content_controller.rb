@@ -165,6 +165,8 @@ class Admin::ContentController < Admin::BaseController
         Article.destroy(merge_id)
         
         @article = mart
+        redirect_to :action => 'index'
+        return
     end
 
 
