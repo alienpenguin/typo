@@ -140,10 +140,31 @@ class Admin::ContentController < Admin::BaseController
   def real_action_for(action); { 'add' => :<<, 'remove' => :delete}[action]; end
 
   def new_or_edit
+  #debugger
+    
+    
     id = params[:id]
     id = params[:article][:id] if params[:article] && params[:article][:id]
+    
     @article = Article.get_or_build_article(id)
     @article.text_filter = current_user.text_filter if current_user.simple_editor?
+
+    
+    merge_id = params[:merge_with]
+    if merge_id and not merge_id.blank?
+        params[:action] = "merge"
+        raise "Cannot merge an article with itself" unless id != merge_id
+        mart = @article.merge_with(merge_id)
+        debugger
+        @article.destroy
+        Article.destroy(merge_id)
+        
+        @article = mart
+        
+        #redirect_to :action => 'index'
+        #return
+    end
+
 
     @post_types = PostType.find(:all)
     if request.post?
@@ -189,6 +210,8 @@ class Admin::ContentController < Admin::BaseController
       flash[:notice] = _('Article was successfully created')
     when 'edit'
       flash[:notice] = _('Article was successfully updated.')
+    when 'merge'
+      flash[:notice] = _('Article was successfully merged.')
     else
       raise "I don't know how to tidy up action: #{params[:action]}"
     end

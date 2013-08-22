@@ -317,6 +317,20 @@ class Article < Content
     find_by_permalink(params)
   end
 
+  def merge_with(old_article_id)
+debugger
+#changing the title for test
+self.title=self.title+"+"
+    old1 = Article.find(old_article_id)
+    merged = Article.new
+    merged.title = old1.title
+    merged.author = old1.author
+    merged.body = old1.body+"\n"+self.body
+    merged.user_id = old1.user_id
+    merged.save!
+    return merged
+  end
+  
   # Fulltext searches the body of published articles
   def self.search(query, args={})
     query_s = query.to_s.strip
