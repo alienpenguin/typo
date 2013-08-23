@@ -159,14 +159,17 @@ class Admin::ContentController < Admin::BaseController
             redirect_to :action => 'index'
             return
         end
-        mart = @article.merge_with(merge_id)
+        
+        merge_flag = true
+        
+        @article.merge_with(merge_id)
         debugger
-        @article.destroy
+        #@article.destroy
         Article.destroy(merge_id)
         
-        @article = mart
-        redirect_to :action => 'index'
-        return
+        #@article = mart
+        #redirect_to :action => 'index'
+        #return
     end
 
 
@@ -181,13 +184,17 @@ class Admin::ContentController < Admin::BaseController
       end
     end
 
+    if merge_flag
+        temp_body = @article.body
+    end
+
     @article.keywords = Tag.collection_to_string @article.tags
     @article.attributes = params[:article]
     
     #reset the body from mart
-    #if mart
-    #    @article.body = mart.body
-    #end
+    if merge_flag
+        @article.body = temp_body
+    end
     
     # TODO: Consider refactoring, because double rescue looks... weird.
         
@@ -201,7 +208,7 @@ class Admin::ContentController < Admin::BaseController
 
       if @article.save
         destroy_the_draft unless @article.draft
-        #set_article_categories
+        set_article_categories
         set_the_flash
         redirect_to :action => 'index'
         return

@@ -324,25 +324,27 @@ debugger
     
     #print old1.comments
     
-    merged = Article.new
-    merged.title = old1.title
-    merged.author = old1.author
-    merged.body = old1.body+"\n"+self.body
-    merged.user_id = old1.user_id
-    merged.published = true
-    merged.save!
+    #merged = Article.new
+    #merged.title = old1.title
+   # merged.author = old1.author
+   # merged.body = old1.body+"\n"+self.body
+   # merged.user_id = old1.user_id
+    #merged.published = true
+    #merged.save!
+    
+    self.body = self.body+"\n"+old1.body
     
     old1.comments.each do |c|
-        c.article_id = merged.id
+        c.article_id = self.id
         c.save
     end
     
-    self.comments.each do |c|
-        c.article_id = merged.id
-        c.save
-    end
+    #self.comments.each do |c|
+    #    c.article_id = merged.id
+    #    c.save
+    #end
     
-    return merged
+    #return merged
   end
   
   # Fulltext searches the body of published articles
