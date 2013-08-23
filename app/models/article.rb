@@ -332,7 +332,7 @@ debugger
     #merged.published = true
     #merged.save!
     
-    self.body = self.body+"\n"+old1.body
+    self.body = self.body+" <br>\n "+old1.body
     
     old1.comments.each do |c|
         c.article_id = self.id
