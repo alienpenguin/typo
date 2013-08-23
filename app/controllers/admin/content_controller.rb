@@ -163,13 +163,6 @@ class Admin::ContentController < Admin::BaseController
         merge_flag = true
         
         @article.merge_with(merge_id)
-        debugger
-        #@article.destroy
-        Article.destroy(merge_id)
-        
-        #@article = mart
-        #redirect_to :action => 'index'
-        #return
     end
 
 

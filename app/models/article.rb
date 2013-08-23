@@ -318,19 +318,9 @@ class Article < Content
   end
 
   def merge_with(old_article_id)
-debugger
-#changing the title for test
+  debugger
+
     old1 = Article.find(old_article_id)
-    
-    #print old1.comments
-    
-    #merged = Article.new
-    #merged.title = old1.title
-   # merged.author = old1.author
-   # merged.body = old1.body+"\n"+self.body
-   # merged.user_id = old1.user_id
-    #merged.published = true
-    #merged.save!
     
     self.body = self.body+" <br>\n "+old1.body
     
@@ -339,12 +329,7 @@ debugger
         c.save
     end
     
-    #self.comments.each do |c|
-    #    c.article_id = merged.id
-    #    c.save
-    #end
-    
-    #return merged
+    Article.destroy(old_article_id)
   end
   
   # Fulltext searches the body of published articles
